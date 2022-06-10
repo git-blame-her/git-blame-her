@@ -1,4 +1,4 @@
-import { actx } from "./actx";
+import { ACtx } from "./actx";
 import type { AudioId } from "./types";
 
 export interface AudioAsset {
@@ -11,6 +11,7 @@ const assetStores = {
 };
 
 export async function fetchAudio(audioId: AudioId, src: string) {
+  const actx = ACtx.get();
   const response = await fetch(src);
   const blob = await response.blob();
   const arrayBuffer = await blob.arrayBuffer();

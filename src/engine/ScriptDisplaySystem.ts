@@ -17,6 +17,6 @@ export interface ScriptObject extends ScriptOptions {
   lines: Line[];
 }
 
-export function parseScriptObject(so: ScriptObject) {
+export function parseScriptObject(/*so: ScriptObject*/) {
 
 }

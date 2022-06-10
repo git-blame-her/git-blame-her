@@ -1,22 +1,19 @@
-import { actx } from "./actx";
+import { ACtx } from "./actx";
 import { PossibleAudioNodes } from "./types";
 import type { AudioPipelineBuildResult, PlayAudioDetail, StopAudioDetail, FadeOutDetail, SetPannerDetail, SwingAudioDetail } from "./types";
 import * as AssetManager from "./AssetManager";
 
 class AudioPlaybackSystem {
   // 변수선언
-  private readonly _actx: AudioContext;
   private readonly currentPlaying = new Map<string, AudioPipelineBuildResult>();
-  public audioSettings: Record<string, { voiceVolume: number }> = {
+  public audioSettings: Record<string, { volume: number }> = {
+    background: {
+      volume: 1
+    },
     sissela: {
-      voiceVolume: 1
+      volume: 1
     }
   };
-
-  // 생성자 함수
-  constructor(audioContext: AudioContext) {
-    this._actx = audioContext;
-  }
 
   // 메서드 선언
   // 소리 재생
@@ -36,16 +33,17 @@ class AudioPlaybackSystem {
 
   // 오디오 연결 선 구축
   private buildAudioPipeLine(detail: PlayAudioDetail) {
+    const actx = ACtx.get()
     const soundKind = detail.soundKind;
-    const gn = new GainNode(this._actx, { gain: this.audioSettings[soundKind].voiceVolume });
-    const spn = new StereoPannerNode(this._actx);
-    const lfo = new OscillatorNode(this._actx);
+    const gn = new GainNode(actx, { gain: this.audioSettings[soundKind].volume });
+    const spn = new StereoPannerNode(actx);
+    const lfo = new OscillatorNode(actx);
 
     const initialNodes = detail.pipeline.map(audioGroup => {
       const nodesToBeConnected: Array<AudioBufferSourceNode | DelayNode> = audioGroup.map(audioNodeInfo => {
         switch (audioNodeInfo.node) {
           case PossibleAudioNodes.AudioBufferSource: {
-            const absn = new AudioBufferSourceNode(this._actx, {
+            const absn = new AudioBufferSourceNode(actx, {
               buffer: AssetManager.get('audio', detail.audioId).buffer,
               loop: detail.loop
             });
@@ -58,7 +56,7 @@ class AudioPlaybackSystem {
           }
           
           case PossibleAudioNodes.Delay:
-            return new DelayNode(this._actx, {
+            return new DelayNode(actx, {
               delayTime: audioNodeInfo.delayTime
             });
         }
@@ -80,7 +78,7 @@ class AudioPlaybackSystem {
     });
 
     // 음량제어노드를 스피커에 연결
-    gn.connect(this._actx.destination);
+    gn.connect(actx.destination);
     
     return {
       initialNodes,
@@ -107,7 +105,9 @@ class AudioPlaybackSystem {
 
   // 소리가 서서히 지정된 값까지 줄어들게 하는 연출
   fadeOutAudio(detail: FadeOutDetail) {
-    this.currentPlaying.get(detail.audioId)?.gn.gain.linearRampToValueAtTime(detail.volume, detail.endTime);
+    const currentTime = ACtx.get().currentTime;
+
+    this.currentPlaying.get(detail.audioId)?.gn.gain.linearRampToValueAtTime(detail.volume, currentTime + detail.endTime);
   }
 
   // 패너노드의 값을 지정하여 한쪽에서만 소리가 들리는 효과 연출 가능
@@ -131,6 +131,6 @@ class AudioPlaybackSystem {
 }
 
 // export
-const aps = new AudioPlaybackSystem(actx);
+const aps = new AudioPlaybackSystem();
 
 export default aps;

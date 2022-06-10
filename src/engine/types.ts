@@ -10,7 +10,6 @@ export enum PossibleAudioNodes {
 export type AudioNodeInfo = {
   node: PossibleAudioNodes.AudioBufferSource
   isMainNode: boolean;
-  buffer: AudioBuffer;
 } | {
   node: PossibleAudioNodes.Delay
   delayTime: number;
