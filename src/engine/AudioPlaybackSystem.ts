@@ -1,4 +1,4 @@
-import { ACtx } from "./actx";
+import { getAudioCtx } from "./AudioCtx";
 import { PossibleAudioNodes } from "./types";
 import type { AudioPipelineBuildResult, PlayAudioDetail, StopAudioDetail, FadeOutDetail, SetPannerDetail, SwingAudioDetail } from "./types";
 import * as AssetManager from "./AssetManager";
@@ -33,7 +33,7 @@ class AudioPlaybackSystem {
 
   // 오디오 연결 선 구축
   private buildAudioPipeLine(detail: PlayAudioDetail) {
-    const actx = ACtx.get()
+    const actx = getAudioCtx()
     const soundKind = detail.soundKind;
     const gn = new GainNode(actx, { gain: this.audioSettings[soundKind].volume });
     const spn = new StereoPannerNode(actx);
@@ -105,7 +105,7 @@ class AudioPlaybackSystem {
 
   // 소리가 서서히 지정된 값까지 줄어들게 하는 연출
   fadeOutAudio(detail: FadeOutDetail) {
-    const currentTime = ACtx.get().currentTime;
+    const currentTime = getAudioCtx().currentTime;
 
     this.currentPlaying.get(detail.audioId)?.gn.gain.linearRampToValueAtTime(detail.volume, currentTime + detail.endTime);
   }

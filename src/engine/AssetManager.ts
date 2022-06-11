@@ -1,43 +1,48 @@
-import { ACtx } from "./actx";
-import type { AudioId } from "./types";
+import { getAudioCtx } from "./AudioCtx";
+import type { Access } from "./types";
 
-export interface AudioAsset {
-  id: AudioId;
-  buffer: AudioBuffer;
+export interface Asset {
+  id: string;
 }
 
-const assetStores = {
-  audio: new Map<AudioId, AudioAsset>()
-};
-
-export async function fetchAudio(audioId: AudioId, src: string) {
-  const actx = ACtx.get();
-  const response = await fetch(src);
-  const blob = await response.blob();
-  const arrayBuffer = await blob.arrayBuffer();
-  const buffer = await actx.decodeAudioData(arrayBuffer);
-  assetStores.audio.set(audioId, {
-    id: audioId,
-    buffer,
-  });
+export interface AudioAsset extends Asset {
+  buffer: AudioBuffer;
 }
 
 interface IntrinsicAsset {
   audio: AudioAsset;
 }
 
-export function get<T extends keyof IntrinsicAsset>(type: T, id: AudioId, shouldDelete = false): IntrinsicAsset[T] {
+const assetStores: {
+  [AssetName in keyof IntrinsicAsset]: Map<string, IntrinsicAsset[AssetName]>
+} = {
+  audio: new Map()
+};
+
+export async function fetchAudio(audioId: string, src: string) {
+  const actx = getAudioCtx();
+  const buffer = await fetch(src)
+    .then(response => response.blob())
+    .then(blob => blob.arrayBuffer())
+    .then(arrayBuffer => actx.decodeAudioData(arrayBuffer));
+  assetStores.audio.set(audioId, {
+    id: audioId,
+    buffer,
+  });
+}
+
+export function get<T extends keyof IntrinsicAsset>(type: T, id: Access<Access<IntrinsicAsset, T>, 'id'>): IntrinsicAsset[T] {
   const assets = assetStores[type];
   const asset = assets.get(id);
   if (asset == null) {
-    throw new Error("Unknown audio id: " + id);
-  }
-  if (shouldDelete) {
-    assets.delete(id);
+    throw new Error(`Unknown ${type} id: ${id}`);
   }
   return asset;
 }
 
-export function pop<T extends keyof IntrinsicAsset>(type: T, id: AudioId): IntrinsicAsset[T] {
-  return get(type, id, true);
+export function pop<T extends keyof IntrinsicAsset>(type: T, id: Access<Access<IntrinsicAsset, T>, 'id'>): IntrinsicAsset[T] {
+  const assets = assetStores[type];
+  const got = get(type, id)
+  assets.delete(id);
+  return got;
 }

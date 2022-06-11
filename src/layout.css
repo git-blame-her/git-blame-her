@@ -1,0 +1,77 @@
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  position: relative;
+
+  width: inherit;
+  height: inherit;
+}
+
+#void {
+  width: inherit;
+  height: calc(100% - 2px); /* 이래야 스크롤바가 안 생기는 듯 */
+}
+
+#outermost-frame {
+  --width: 1000px;
+
+  position: absolute;
+  top: 100px;
+  left: calc(50% - var(--width) / 2);
+
+  width: var(--width);
+  height: 600px;
+
+  border: 1px solid black;
+  background-color: white;
+}
+
+#background {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+
+  width: 998px;
+  height: 598px;
+
+  background-image: url(../bgimg001.png);
+  background-size: cover;
+}
+
+#background-effect {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+
+  width: 998px;
+  height: 598px;
+
+  background-color: black;
+  opacity: 0;
+  background-size: cover;
+}
+
+#footer {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+
+  width: inherit;
+  height: 70px;
+
+  background-color: rgb(23, 23, 23);
+
+  color: white;
+  font-size: 20px;
+  font-family: 'Nanum Gothic', sans-serif;
+  font-weight: bold;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+}

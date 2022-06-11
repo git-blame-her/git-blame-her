@@ -1,4 +1,5 @@
-export type AudioId = string;
+// util type
+export type Access<T, Key extends keyof T> = T extends { [_ in Key]: infer V } ? V : never
 
 export type InitialNodeGroup = AudioBufferSourceNode | DelayNode | StereoPannerNode
 
@@ -22,28 +23,47 @@ export interface AudioPipelineBuildResult {
   gn: GainNode;
 }
 
-interface BaseDetail {
+interface Detail {
   audioId: string;
 }
 
-export interface PlayAudioDetail extends BaseDetail {
+export interface PlayAudioDetail extends Detail {
   soundKind: string;
   pipeline: Array<AudioNodeInfo[]>;
   loop: boolean;
 }
 
-export interface StopAudioDetail extends BaseDetail {
+export interface StopAudioDetail extends Detail {
 }
 
-export interface FadeOutDetail extends BaseDetail {
+export interface FadeOutDetail extends Detail {
   volume: number;
   endTime: number;
 }
 
-export interface SetPannerDetail extends BaseDetail {
+export interface SetPannerDetail extends Detail {
   pan: number;
 }
 
-export interface SwingAudioDetail extends BaseDetail {
+export interface SwingAudioDetail extends Detail {
   frequency: number;
+}
+
+export interface SetBackgroundParams {
+  path: string;
+}
+
+export interface ChangeBackgroundFadeOutInParams {
+  path: string;
+  transitionTime: number;
+}
+
+export interface ApplyDarkChangeParams {
+  path: string;
+  transitionTime: number;
+}
+
+export interface ApplyCrossFadeInOutParams {
+  path: string;
+  transitionTime: number;
 }

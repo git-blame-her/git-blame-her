@@ -1,8 +1,9 @@
 import { fetchAudio } from '../src/engine/AssetManager';
-import { PlayAudioDetail, AudioNodeInfo, PossibleAudioNodes, SwingAudioDetail } from '../src/engine/types';
+import { PlayAudioDetail, AudioNodeInfo, PossibleAudioNodes, SwingAudioDetail, SetBackgroundParams, ChangeBackgroundFadeOutInParams, ApplyDarkChangeParams, ApplyCrossFadeInOutParams } from '../src/engine/types';
 import aps from '../src/engine/AudioPlaybackSystem';
+import scs from '../src/engine/SceneChangeSystem';
 
-export async function test() {
+async function audioTest() {
   aps.audioSettings.background.volume = 0.1;
 
   await fetchAudio('bg', 'bg.wav');
@@ -55,4 +56,30 @@ export async function test() {
   }, 1000);
 }
 
-window.addEventListener('test', test);
+function sceneTest() {
+  const sbp: SetBackgroundParams = {
+    path: '../public/picture.jpg'
+  };
+
+  const cbfoip: ChangeBackgroundFadeOutInParams = {
+    path: '../public/picture.jpg',
+    transitionTime: 2
+  }
+
+  const adcp: ApplyDarkChangeParams = {
+    path: '../public/picture.jpg',
+    transitionTime: 2
+  }
+
+  const acfiop: ApplyCrossFadeInOutParams = {
+    path: '../public/picture.jpg',
+    transitionTime: 2
+  }
+
+  // scs.setBackground(sbp);
+  scs.changeBackgroundFadeOutIn(cbfoip);
+  // scs.applyDarkChange(adcp);
+  // scs.applyCrossFadeInOut(acfiop);
+}
+
+window.addEventListener('test', sceneTest);
