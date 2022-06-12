@@ -3,7 +3,11 @@
     "target": "ESNext",
     "useDefineForClassFields": true,
     "module": "ESNext",
-    "lib": ["ESNext", "DOM"],
+    "lib": [
+      "ESNext",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "moduleResolution": "Node",
     "strict": true,
     "sourceMap": true,
@@ -14,7 +18,12 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "exactOptionalPropertyTypes": true,
+    "jsx": "react",
+    "jsxFactory": "jsx"
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }

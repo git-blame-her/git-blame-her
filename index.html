@@ -5,18 +5,23 @@
     <title>git blame her</title>
     <link rel="stylesheet" href="/src/css-reset.css">
     <link rel="stylesheet" href="/src/layout.css">
-    <link href="https://cdn.jsdelivr.net/gh/naen-nae/fonts@purge-cache-for-subsets/build/css/Nanum Gothic.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/naen-nae/fonts@purge-cache-for-subsets/build/css/Nanum Gothic.css"
+      rel="stylesheet">
   </head>
   <body>
-    <canvas id="void"></canvas>
-    <div id="outermost-frame">
-      <div id="background"></div>
-      <div id="background-effect"></div>
+    <div id="app">
+      <canvas id="void"></canvas>
+      <div id="outermost-frame">
+        <div id="main">
+          <div id="start-btn">새로 시작</div>
+        </div>
+      </div>
+      <footer id="footer">
+        <p>git blame her ~내 관심리스트 1순위가 코딩이 아니게 된 건 다 너 때문이야~</p>
+        <a href="https://github.com/git-blame-her/git-blame-her" target="_blank"><img src="/github.svg" width="25"
+            height="25"></a>
+      </footer>
     </div>
-    <footer id="footer">
-      <p>git blame her ~내 관심리스트 1순위가 코딩이 아니게 된 건 다 너 때문이야~</p>
-      <a href="https://github.com/git-blame-her/git-blame-her" target="_blank"><img src="/github.svg" width="25" height="25"></a>
-    </footer>
     <script type="module" src="/src/main.ts"></script>
     <script type="module" src="/test/test.ts"></script>
   </body>

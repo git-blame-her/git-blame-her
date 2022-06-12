@@ -1,5 +1,13 @@
-import { initVoid } from './void';
+import { getElementById } from './util/getElement'
+import { initVoid } from './void'
+import { initNameDet } from './initNameDet'
 
-initVoid();
+const $startBtn = getElementById<HTMLDivElement>('start-btn')!
 
-console.log('main.ts loaded');
+initVoid()
+
+$startBtn.addEventListener('click', () => {
+  initNameDet()
+})
+
+console.log('main.ts loaded')
