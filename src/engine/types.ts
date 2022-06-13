@@ -1,7 +1,11 @@
 import type { ScriptTurn } from './builder'
 
-// util type
 export type Access<T, Key extends keyof T> = T extends { [_ in Key]: infer V } ? V : never
+
+export interface AnimationWithOptionalCallback {
+  animation: [ Array<Keyframe>, KeyframeAnimationOptions ]
+  then?: () => void
+}
 
 export type InitialNodeGroup = AudioBufferSourceNode | DelayNode | StereoPannerNode
 
@@ -31,7 +35,7 @@ interface Detail {
 
 export interface PlayAudioDetail extends Detail {
   soundKind: string
-  pipeline: Array<AudioNodeInfo[]>
+  pipeline: Array<Array<AudioNodeInfo>>
   loop: boolean
 }
 

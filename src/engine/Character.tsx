@@ -2,23 +2,31 @@ import Animatable from './Animatable'
 import Emotion from './Emotion'
 import { CHARACTERS } from './characters'
 import { EMOTIONS } from './emotions'
-import { animateWithSeconds } from '../util/css-animations'
+import { animateWithSeconds } from '../util/css/animateWithSeconds'
 import jsx from '../util/jsx'
 import type { ScriptDisplayParams } from './types'
 
 interface CharacterParams {
-  name: string
+  id: keyof typeof CHARACTERS
   x: number
   y: number
   animation?: 'CHARACTER_UP' | 'CHARACTER_DOWN'
   zIndex: number
   shadow: boolean
-  emotion?: string
+  emotion?: keyof typeof EMOTIONS
 }
 class Character extends Animatable {
+	id: keyof typeof CHARACTERS
 	emotion: Emotion | null = null
 	constructor(params: CharacterParams) {
-		const character = CHARACTERS[params.name]
+		super()
+		this.id = params.id
+		if ('emotion' in params) {
+			this.emote(params.emotion)
+		}
+	}
+	display() {
+		const character = CHARACTERS[this.id]
 		const $character = (
 			<div>
 				<img
@@ -28,13 +36,9 @@ class Character extends Animatable {
 				/>
 			</div>
 		)
-		super($character)
-		if ('emotion' in params) {
-			this.emote(params.emotion)
-		}
 	}
-	emote(emotionName: string) {
-		new Emotion()
+	emote(emotionId: keyof typeof EMOTIONS) {
+		new Emotion(emotionId)
 	}
 }
 

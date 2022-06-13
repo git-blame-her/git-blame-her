@@ -21,7 +21,8 @@
     "skipLibCheck": true,
     "exactOptionalPropertyTypes": true,
     "jsx": "react",
-    "jsxFactory": "jsx"
+    "jsxFactory": "jsx",
+    "jsxFragmentFactory": "jsx"
   },
   "include": [
     "src"

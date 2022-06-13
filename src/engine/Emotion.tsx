@@ -1,6 +1,6 @@
 import Animatable from './Animatable'
 import { EMOTIONS } from './emotions'
-import { px } from '../util/css-macros'
+import { px } from '../util/css/macros'
 import jsx from '../util/jsx'
 
 interface EmotionDisplayParams {
@@ -29,14 +29,7 @@ class Emotion extends Animatable {
 			</div>
 		)
 
-		switch (this.emotionId) {
-			case 'embarrassed': {
-				animateWithSeconds($emotion, 'EMBARRASSED', { seconds: 1 })
-					.then(() => {
-						$emotion.remove()
-					})
-			}
-		}
+		
 		
 		params.targetElement.appendChild($emotion)
 	}

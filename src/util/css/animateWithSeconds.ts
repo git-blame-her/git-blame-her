@@ -1,5 +1,5 @@
-import AwaitableAnimation from './AwaitableAnimation'
-import validated from './validated'
+import ThenableAnimation from '../ThenableAnimation'
+import validated from '../validated'
 import { FADE_IN, FADE_OUT, CHARACTER_DOWN, CHARACTER_UP, EMBARRASSED } from './animations'
 
 const ANIMATIONS = validated<Record<string, Array<Keyframe>>>()({
@@ -12,9 +12,12 @@ const ANIMATIONS = validated<Record<string, Array<Keyframe>>>()({
 
 export const animateWithSeconds = (
 	element: HTMLElement,
-	animation: keyof typeof ANIMATIONS | Array<Keyframe> | PropertyIndexedKeyframes,
+	animation: keyof typeof ANIMATIONS | Array<Keyframe>,
 	options: Omit<KeyframeAnimationOptions, 'duration'> & { seconds: number }
 ) => {
+	if (typeof animation === 'string') {
+		
+	}
 	const $animation = element.animate(
 		typeof animation === 'string'
 			? ANIMATIONS[animation]
@@ -25,5 +28,5 @@ export const animateWithSeconds = (
 		}
 	)
 
-	return new AwaitableAnimation($animation)
+	return new ThenableAnimation($animation)
 }

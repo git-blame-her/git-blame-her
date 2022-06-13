@@ -1,7 +1,7 @@
 import { getElementById } from '../util/getElement'
 import { RegisterCharacterParams } from './types'
-import { px } from '../util/css-macros'
-import { animateWithSeconds } from '../util/css-animations'
+import { px } from '../util/css/macros'
+import { animateWithSeconds } from '../util/css/animateWithSeconds'
 import jsx from '../util/jsx'
 
 

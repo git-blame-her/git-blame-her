@@ -1,7 +1,7 @@
-import { url } from '../util/css-macros'
+import { url } from '../util/css/macros'
 import type { SetBackgroundParams, ChangeBackgroundFadeOutInParams, ApplyDarkChangeParams, ApplyCrossFadeInOutParams } from './types'
 import { getElementById } from '../util/getElement'
-import { animateWithSeconds } from '../util/css-animations'
+import { animateWithSeconds } from '../util/css/animateWithSeconds'
 
 class SceneChangeSystem {
 	constructor(

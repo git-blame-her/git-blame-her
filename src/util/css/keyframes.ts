@@ -7,11 +7,10 @@ type ValidatedKeyframes<Keyframes extends PercentageIndexedKeyframes> =
   ? Keyframes
   : Pick<Keyframes, Extract<keyof Keyframes, `${bigint}%`>>
 
-// 타입 강제를 위함
+function keyframes(...keyframes: [Keyframe, ...Array<Keyframe>]): Array<Keyframe>
 function keyframes<
   Keyframes extends PercentageIndexedKeyframes,
   >(keyframes: ValidatedKeyframes<Keyframes>): Array<Keyframe>
-function keyframes(...keyframes: [Keyframe, ...Array<Keyframe>]): Array<Keyframe>
 function keyframes(...keyframes: Array<any>): Array<Keyframe> {
   if (keyframes.length !== 1) return keyframes
   else {
@@ -24,4 +23,5 @@ function keyframes(...keyframes: Array<any>): Array<Keyframe> {
       .sort((a, b) => a.offset - b.offset)
   }
 }
+
 export default keyframes
